@@ -1,1 +1,31 @@
+name: probe
 
+# 手动触发为主（Actions 页面上点 Run workflow）。
+# 也留了一个定时，方便观察不同时段的成功率；不需要可以删掉 schedule 那两行。
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"   # 约每 30 分钟（GitHub 定时有抖动，仅供观察）
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install deps
+        run: pip install requests beautifulsoup4
+
+      - name: Run probe
+        env:
+          # ↓↓↓ 改成你真实关注的账号 uid（可填 1-2 个测试）
+          WEIBO_UIDS: "1234567890"
+          XUEQIU_UIDS: "7654321"
+          # ↓↓↓ cookie 从仓库 Secrets 读取，不要写在这里
+          WEIBO_COOKIE: ${{ secrets.WEIBO_COOKIE }}
+          XUEQIU_COOKIE: ${{ secrets.XUEQIU_COOKIE }}
+        run: python probe.py
