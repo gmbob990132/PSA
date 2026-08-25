@@ -23,8 +23,8 @@ jobs:
       - name: Run probe
         env:
           # ↓↓↓ 改成你真实关注的账号 uid（可填 1-2 个测试）
-          WEIBO_UIDS: "1234567890"
-          XUEQIU_UIDS: "7654321"
+          WEIBO_UIDS: "1216826604,3962719063"
+          XUEQIU_UIDS: "9742512811,9887656769"
           # ↓↓↓ cookie 从仓库 Secrets 读取，不要写在这里
           WEIBO_COOKIE: ${{ secrets.WEIBO_COOKIE }}
           XUEQIU_COOKIE: ${{ secrets.XUEQIU_COOKIE }}
